@@ -4,10 +4,9 @@ const fs = require('fs').promises;
 router.get('/', (req, res) => {
   fs.readFile('../data/users.json', { encoding: 'utf8' })
     .then((users) => {
-      console.log(users);
       res.send({ data: JSON.stringify(users) });
     })
-    .catch(() => res.send({ message: 'Card Not Found' }).status(500));
+    .catch(() => res.send({ message: 'User Not Found' }).status(500));
 });
 
 router.get('/:id', (req, res) => {
@@ -15,17 +14,19 @@ router.get('/:id', (req, res) => {
 
   fs.readFile('../data/users.json', { encoding: 'utf8' })
     .then((users) => {
+      console.log('users =>', users);
       const data = JSON.parse(JSON.stringify(users));
-      data.find((user) => user._id === id);
-      if (users) {
-        res.send(users);
+      const user = data.find(user => user._id === id);
+
+      if(user) {
+        res.send(user);
       } else {
         res.send({ message: 'User ID not found' }).status(404);
       }
     })
-    .catch(() => res.send({ message: 'Card Not Found' }).status(500));
+    .catch(() => res.send({ message: 'User Not Found' }).status(500));
 });
 
-module.export = {
+module.exports = {
   userRouter: router,
 };

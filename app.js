@@ -1,10 +1,10 @@
 const express = require('express');
-const { routerMain } = require('./routes/index');
 
 const app = express();
 const { PORT = 3000 } = process.env;
+const { router } = require('./routes');
 
-app.use('/', routerMain);
+app.use('/', router);
 app.get('*', (req, res) => {
   res.send({ message: 'Requested resource not found' }).status(404);
 });
