@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
       console.log(cards);
       res.send({ data: JSON.stringify(cards) });
     })
-    .catch((err) =>{
+    .catch((err) => {
       console.log(err);
       res.status(500).send({ message: 'Card Not Found' });
     });
