@@ -12,12 +12,3 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`App is available  on port  ${PORT}...`);
 });
-
-// const users = require('./data/users.json'); gerek yok bunlara
-// const cards = require('./data/cards.json'); gerek yok
-
-// const { userRouter } = require('./users');
-// const { cardRouter } = require('./cards');
-
-// app.use('/users', userRouter);
-// app.use('/cards', cardRouter);

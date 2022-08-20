@@ -2,29 +2,36 @@ const router = require('express').Router();
 const fs = require('fs').promises;
 
 router.get('/', (req, res) => {
-  fs.readFile('../data/users.json', { encoding: 'utf8' })
+  fs.readFile('./data/users.json', { encoding: 'utf8' })
     .then((users) => {
+      console.log(users);
       res.send({ data: JSON.stringify(users) });
     })
-    .catch(() => res.send({ message: 'User Not Found' }).status(500));
-});
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ message: 'User Not Found' });
+      });
+  });
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
-  fs.readFile('../data/users.json', { encoding: 'utf8' })
+  fs.readFile('./data/users.json', { encoding: 'utf8' })
     .then((users) => {
-      console.log('users =>', users);
-      const data = JSON.parse(JSON.stringify(users));
-      const user = data.find(user => user._id === id);
+      console.log('users id here =>>')
+      const data = JSON.parse(users);
+      const user = data.find((user) => user._id === id);
 
-      if(user) {
+      if (user) {
         res.send(user);
       } else {
-        res.send({ message: 'User ID not found' }).status(404);
+        res.status(404).send({ message: 'User ID not found' });
       }
     })
-    .catch(() => res.send({ message: 'User Not Found' }).status(500));
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ message: 'User Not Found' });
+    });
 });
 
 module.exports = {
