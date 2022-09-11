@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 });
 
 //routers step 5
-const { getAllCards, getUser, createCard } = require('../controllers/users');  //controllers - users or cards- check b4 submit
+const { getAllCards, getUser, createCard } = require('../controllers/cards');  //controllers - users or cards- check b4 submit
 
 router.get('/cards', getAllCards)
 router.delete('/cards/:cardId', getUser)
