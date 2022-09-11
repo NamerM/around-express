@@ -33,17 +33,15 @@ const createUser = (req, res) => {
   const { name, avatar, about} = req.body
 
   User.create({ name, avatar, about })
-      .then(users => res.status(201).send({ data: users }))
+      .then(users => res.status(201).send({ data: users }))  //user or users check...
       .catch((err) => {
+        console.log('err =>', err)
         if(err.name === 'ValidationError') {
-          const message = `${Object.values(err.errors).map((error) => error.message).join(', ')}` //c.point
+          'The name length should be in between 2 to 30 characters, The url of the avatar must be in correct form'
+          const message = `${Object.values(err.errors).map((key) => errors[key].message).join(', ')}` //c.point
           res.status(400).send({ message: 'Bad Request' })
-        }
-
-        if(err.status === 404) {
-            res.status(404).send(err.message)
         } else {
-            res.status(500).send(err.message)
+          res.status(500).send({ message: 'Internal Server Error ...' })
         }
       })
 }
