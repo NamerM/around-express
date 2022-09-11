@@ -45,3 +45,9 @@ const createUser = (req, res) => {
         }
       })
 }
+
+module.exports = {
+  getAllUsers,
+  getUser,
+  createUser
+}

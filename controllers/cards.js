@@ -46,3 +46,9 @@ const deleteCard = (req, res) => {
         }
       })
 }
+
+module.exports = {
+  getAllCards,
+  createCard,
+  deleteCard
+}
