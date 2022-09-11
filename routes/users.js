@@ -33,6 +33,15 @@ router.get('/:id', (req, res) => {
     });
 });
 
+//step 3 project13
+const { getAllUsers, getUser, createUser } = require('../controllers/users');
+
+router.get('/users', getAllUsers)
+router.get('/users/:userId', getUser)
+router.post('/users', createUser)
+
+
+
 module.exports = {
   userRouter: router,
 };
