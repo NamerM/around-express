@@ -1,6 +1,14 @@
 const router = require('express').Router();
 const fs = require('fs').promises;
 
+//step 3 project13
+const { getAllUsers, getUser, createUser } = require('../controllers/users');
+
+router.get('/users', getAllUsers)
+router.get('/users/:userId', getUser)
+router.post('/users', createUser)
+
+
 router.get('/', (req, res) => {
   fs.readFile('./data/users.json', { encoding: 'utf8' })
     .then((users) => {
@@ -8,7 +16,7 @@ router.get('/', (req, res) => {
       res.send({ data: JSON.stringify(users) });
     })
     .catch((err) => {
-      console.log(err);
+      console.log('err =>', err);
       res.status(500).send({ message: 'User Not Found' });
     });
 });
@@ -33,12 +41,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-//step 3 project13
-const { getAllUsers, getUser, createUser } = require('../controllers/users');
 
-router.get('/users', getAllUsers)
-router.get('/users/:userId', getUser)
-router.post('/users', createUser)
 
 
 
