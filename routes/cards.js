@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const fs = require('fs').promises;
 
-//routers step 5
-const { getAllCards, getUser, createCard } = require('../controllers/cards');  //controllers - users or cards- check b4 submit
+//routers step 3
+const { getAllCards, createCard, deleteCard } = require('../controllers/cards');  //controllers - users or cards- check b4 submit
 
 router.get('/cards', getAllCards)
-router.delete('/cards/:cardId', getUser)
+router.delete('/cards/:cardId', deleteCard)
 router.post('/cards', createCard)
 
 
