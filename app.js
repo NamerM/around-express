@@ -13,15 +13,18 @@ const { router } = require('./routes');
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
-app.use('/', router);
 
 app.use((req, res, next) => {
-    req.user = {
-      _id: '631f220c1e56c98bfdc2f492'
-    };
+  req.user = {
+    _id: '631f220c1e56c98bfdc2f492'
+  };
 
-    next();
+  next();
 })
+
+app.use('/', router);
+
+
 
 
 
