@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const { LINK_REGEXP } = require('../constants/index');
-// const linkRegExp = /[(http(s)?)://(www.)?a-zA-Z0-9@:%.+~#=]{2,256}.[a-z]{2,6}([-a-zA-Z0-9@:%+.~#?&//=]*)/gi;
 
 const cardSchema = new mongoose.Schema({
   name: {
@@ -14,25 +13,23 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => { return LINK_REGEXP.test(v) },
-      message: 'Enter a Valid URL address'
-    }
+      validator: (v) => { return LINK_REGEXP.test(v); },
+      message: 'Enter a Valid URL address',
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'user'
+    ref: 'user',
   },
   likes: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user'}],
-    default: []
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+    default: [],
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
-})
-
-
+});
 
 module.exports = mongoose.model('card', cardSchema);
