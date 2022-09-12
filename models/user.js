@@ -4,7 +4,7 @@ const { LINK_REGEXP } = require('../constants/index');
 
 //const LINK_REGEXP = /[(http(s)?)://(www.)?a-zA-Z0-9@:%.+~#=]{2,256}.[a-z]{2,6}([-a-zA-Z0-9@:%+.~#?&//=]*)/gi;
 
-const userScheme = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -27,4 +27,4 @@ const userScheme = new mongoose.Schema({
   },
 })
 
-module.exports = mongoose.model('user', userScheme);
+module.exports = mongoose.model('user', userSchema);

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { LINK_REGEXP } = require('../constants/index');
 // const linkRegExp = /[(http(s)?)://(www.)?a-zA-Z0-9@:%.+~#=]{2,256}.[a-z]{2,6}([-a-zA-Z0-9@:%+.~#?&//=]*)/gi;
 
-const cardScheme = new mongoose.Schema({
+const cardSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -35,4 +35,4 @@ const cardScheme = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('card', cardScheme);
+module.exports = mongoose.model('card', cardSchema);

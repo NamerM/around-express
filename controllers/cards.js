@@ -47,8 +47,44 @@ const deleteCard = (req, res) => {
       })
 }
 
+const updateLikes = (req, res, operator) => {   // operator:  $addtoset || $pull
+  const cardId = req.params.cardId
+  const userId = req.user._id
+
+  Card.findByIdAndUpdate(
+    cardId,
+    { [operator]: { likes: userId } }, // add _id to the array if it's not there yet
+    { new: true },
+  )
+  .orFail(() => {
+    const error = new Error('Card Id is not found')
+    error.status = 404
+
+    throw error
+  })
+  .then(CARD => res.send({ data: CARD }))
+  .catch( err => {
+    if(err.name === 'Cast Error') {
+      res.status(400).send({ message: 'Card Id is not correct' })
+    } else if(err.status === 404) {
+      res.status(404).send({ message: err.message })
+    } else {
+      res.status(500).send({ message: 'Ooopsss Mulder something went wrong...' })
+    }
+  })
+}
+
+
+//PUT /cards/:cardId/likes — like a card
+const likeCard = (req, res) => updateLikes(req, res, $addToSet)
+
+const dislikeCard = (req, res) => updateLikes(req, res, $pull)
+
+
 module.exports = {
   getAllCards,
   createCard,
-  deleteCard
+  deleteCard,
+  likeCard,
+  dislikeCard
 }

@@ -1,50 +1,17 @@
 const router = require('express').Router();
-const fs = require('fs').promises;
+//const fs = require('fs').promises;
 
 //step 3 project13
-const { getAllUsers, getUser, createUser } = require('../controllers/users');
+const { getAllUsers, getUser, createUser, updateAvatar, updateUser } = require('../controllers/users');
 
 router.get('/users', getAllUsers)
 router.get('/users/:userId', getUser)
 router.post('/users', createUser)
-
-
-router.get('/', (req, res) => {
-  fs.readFile('./data/users.json', { encoding: 'utf8' })
-    .then((users) => {
-      console.log(users);
-      res.send({ data: JSON.stringify(users) });
-    })
-    .catch((err) => {
-      console.log('err =>', err);
-      res.status(500).send({ message: 'User Not Found' });
-    });
-});
-
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-
-  fs.readFile('./data/users.json', { encoding: 'utf8' })
-    .then((users) => {
-      const data = JSON.parse(users);
-      const user = data.find((user) => user._id === id);
-      console.log(user);
-      if (user) {
-        res.send(user);
-      } else {
-        res.status(404).send({ message: 'User ID not found' });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send({ message: 'User Not Found' });
-    });
-});
-
-
-
+router.patch('/users/me', updateUser)
+router.patch('/users/me/avatar', updateAvatar)
 
 
 module.exports = {
   userRouter: router,
 };
+

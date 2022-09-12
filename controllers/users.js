@@ -1,3 +1,4 @@
+const { update } = require('../models/user')
 const User = require('../models/user')
 
 const getAllUsers = (req, res) => {
@@ -46,8 +47,57 @@ const createUser = (req, res) => {
       })
 }
 
+const updateUserData = (req, res) => {
+  const body = req.body   // { avatar }  { name, about }
+
+  User.findByIdAndUpdate(id, body, { new: true })
+      .orFail(() => {
+        const error = new Error('User Id is not found')
+        error.status = 404
+
+        throw error
+      })
+      .then(user => res.send({ data: user }))
+      .catch( err => {
+        if(err.name === 'Cast Error') {
+          res.status(400).send({ message: 'User id is not correct' })
+        } else if(err.status === 404) {
+          res.status(404).send({ message: err.message })
+        } else {
+          res.status(500).send({ message: 'Ooopsss Mulder something went wrong...' })
+        }
+      })
+}
+
+const updateAvatar = (req, res) => {
+   const { avatar } = req.body
+
+   const id = req.user._id
+
+   if(!avatar) {
+    return res.status(400).send({ message: 'Avatar should have inputs! - Can\'t leave avatar empty! '})
+   }
+
+   updateUserData(req, res)
+}
+
+const updateUser = (req, res) => {
+  const { name, about } = req.body
+
+  const id = req.user._id
+
+  if(!name || !about) {
+      return res.status(400).send({ message: ' Can\'t leave the field empty! '})
+  }
+
+  updateUserData(req, res)
+}
+
 module.exports = {
   getAllUsers,
   getUser,
-  createUser
+  createUser,
+  updateAvatar,
+  updateUser
 }
+
