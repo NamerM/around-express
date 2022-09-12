@@ -72,7 +72,7 @@ const updateUserData = (req, res) => {
 const updateAvatar = (req, res) => {
    const { avatar } = req.body
 
-   const id = req.user._id
+   const id = req.user._id  //_id
 
    if(!avatar) {
     return res.status(400).send({ message: 'Avatar should have inputs! - Can\'t leave avatar empty! '})
@@ -84,7 +84,7 @@ const updateAvatar = (req, res) => {
 const updateUser = (req, res) => {
   const { name, about } = req.body
 
-  const id = req.user._id
+  const id = req.user._id  //_id
 
   if(!name || !about) {
       return res.status(400).send({ message: ' Can\'t leave the field empty! '})
