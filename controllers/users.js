@@ -8,8 +8,7 @@ const castError = (req, res, err) => {
   } else {
     res.status(500).send({ message: 'Internal Server Error ...' });
   }
-}
-
+};
 
 const getAllUsers = (req, res) => {
   User.find({})
@@ -18,8 +17,7 @@ const getAllUsers = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  const  id  = req.params.userId;
-
+  const id = req.params.userId;
   User.findById(id)
     .orFail(() => {
       const error = new Error('User id is not found');
@@ -29,16 +27,9 @@ const getUser = (req, res) => {
     .then((user) => {
       res.status(200).send({ data: user });
     })
-    .catch((err) => {castError(req, res, err)})
-    // .catch((err) => {
-    //   if (err.name === 'CastError') {
-    //     res.status(400).send('Invalid Id Format');
-    //   } else if (err.status === 404) {
-    //     res.status(404).send({ message: err.message });
-    //   } else {
-    //     res.status(500).send({ message: 'Internal Server Error ...' });
-    //   }
-    // });
+    .catch((err) => {
+      castError(req, res, err);
+    });
 };
 
 const createUser = (req, res) => {
@@ -59,7 +50,7 @@ const updateUserData = (req, res) => {
   const body = req.body;
   const id = req.user._id;
 
-  User.findByIdAndUpdate(id, body, { new: true , runValidators: true})
+  User.findByIdAndUpdate(id, body, { new: true, runValidators: true })
     .orFail(() => {
       const error = new Error('User Id is not found');
       error.status = 404;
@@ -67,16 +58,9 @@ const updateUserData = (req, res) => {
       throw error;
     })
     .then((user) => res.send({ data: user }))
-    .catch((err) => {castError(req, res, err)})
-    // .catch((err) => {
-    //   if (err.name === 'Cast Error') {
-    //     res.status(400).send({ message: 'User id is not correct' });
-    //   } else if (err.status === 404) {
-    //     res.status(404).send({ message: err.message });
-    //   } else {
-    //     res.status(500).send({ message: 'Ooopsss Mulder something went wrong...' });
-    //   }
-    // });
+    .catch((err) => {
+      castError(req, res, err);
+    });
 };
 
 const updateAvatar = (req, res) => {
