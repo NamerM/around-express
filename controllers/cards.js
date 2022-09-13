@@ -46,7 +46,7 @@ const deleteCard = (req, res) => {
 };
 
 const updateLikes = (req, res, operator) => {
-  const { cardId } = req.params.cardId;
+  const cardId = req.params.cardId;
   const userId = req.user._id;
 
   Card.findByIdAndUpdate(
