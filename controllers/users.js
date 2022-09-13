@@ -1,4 +1,3 @@
-//const { updateUser } = require('../models/user');
 const User = require('../models/user');
 
 const getAllUsers = (req, res) => {
@@ -8,7 +7,7 @@ const getAllUsers = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params.id;
 
   User.findById(id)
     .orFail(() => {
@@ -36,10 +35,7 @@ const createUser = (req, res) => {
   User.create({ name, avatar, about })
     .then((users) => res.status(201).send({ data: users }))
     .catch((err) => {
-      console.log('err =>', err);
       if (err.name === 'ValidationError') {
-        const errors = 'The name length should be in between 2 to 30 characters, The url of the avatar must be in correct form';
-        const message = `${Object.values(err.errors).map((key) => errors[key].message).join(', ')}`;
         res.status(400).send({ message: 'Bad Request' });
       } else {
         res.status(500).send({ message: 'Internal Server Error ...' });
@@ -48,10 +44,10 @@ const createUser = (req, res) => {
 };
 
 const updateUserData = (req, res) => {
-  const body= req.body;
-  const id = req.user._id;
+  const { body } = req.body;
+  const { id } = req.user._id;
 
-  User.findByIdAndUpdate(id, body, { new: true })
+  User.findByIdAndUpdate(id, body, { runValidators: true })
     .orFail(() => {
       const error = new Error('User Id is not found');
       error.status = 404;

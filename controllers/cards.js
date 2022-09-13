@@ -16,9 +16,7 @@ const createCard = (req, res) => {
   })
     .then((card) => res.status(201).send({ data: card }))
     .catch((err) => {
-      console.log('err =>', err);
       if (err.name === 'ValidationError') {
-        const message = `${Object.values(err.errors).map((key) => err[key].message).join(', ')}`;
         res.status(400).send({ message: 'Bad Request, Invalid data format' });
       } else {
         res.status(500).send({ message: 'Internal Server Error ...' });
@@ -27,17 +25,16 @@ const createCard = (req, res) => {
 };
 
 const deleteCard = (req, res) => {
-  const cardId = req.params;
-
+  const { cardId } = req.params;
   Card.findByIdAndRemove(cardId)
     .orFail(() => {
       const error = new Error('Card not found');
-      error.status === 404;
+      error.status = 404;
+
       throw error;
     })
     .then((card) => res.status(200).send({ message: 'Card successfully removed', data: card }))
     .catch((err) => {
-      console.log('err =>', err);
       if (err.name === 'CastError') {
         res.status(400).send({ message: 'Bad Request, Invalid data format' });
       } else if (err.status === 404) {
@@ -49,7 +46,7 @@ const deleteCard = (req, res) => {
 };
 
 const updateLikes = (req, res, operator) => {
-  const cardId = req.params.cardId;
+  const { cardId } = req.params.cardId;
   const userId = req.user._id;
 
   Card.findByIdAndUpdate(

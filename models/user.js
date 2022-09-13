@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => { return LINK_REGEXP.test(v); },
+      validator(v) {
+        return LINK_REGEXP.test(v);
+      },
       message: 'Enter a Valid Avatar address',
     },
   },
