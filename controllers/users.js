@@ -7,7 +7,7 @@ const getAllUsers = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  const { id } = req.params.id;
+  const { id } = req.params.userId;
 
   User.findById(id)
     .orFail(() => {
@@ -44,10 +44,10 @@ const createUser = (req, res) => {
 };
 
 const updateUserData = (req, res) => {
-  const { body } = req.body;
-  const { id } = req.user._id;
+  const body = req.body;
+  const id = req.user._id;
 
-  User.findByIdAndUpdate(id, body, { new: true }, { runValidators: true })
+  User.findByIdAndUpdate(id, body, { new: true })
     .orFail(() => {
       const error = new Error('User Id is not found');
       error.status = 404;
